@@ -1,25 +1,221 @@
-# Rust Trading Engine
+# 🦀 RustyEngine: High-Performance Order Matching System
 
-This is a simple order-matching trading engine built in the Rust programming language. The engine supports the creation of multiple markets (trading pairs) and allows for the placement of buy and sell orders.
+A **low-latency, systems-level trading engine built in Rust**.
+This project demonstrates the implementation of **complex financial trading logic** using Rust’s **zero-cost abstractions**, **memory safety guarantees**, and **high-performance systems programming model**.
 
-## Overview
+The engine simulates a simplified **electronic exchange matching system** capable of handling **limit orders and price-time priority matching**.
 
-The trading engine consists of the following main components:
+---
 
-- **OrderBook**: Contains all the buy (Bid) and sell (Ask) orders in a market. Orders are divided into 'Bid' and 'Ask' orders, and are stored in separate `HashMap` collections, each associated with a specific price level.
-- **Order**: Represents a buy (Bid) or sell (Ask) order with a specific size (amount).
-- **Limit**: Groups all orders at a particular price level. Includes functions to fill orders and compute the total volume of orders at that limit level.
-- **MatchingEngine**: The core engine that executes trading operations. It maintains a collection of `OrderBooks`, one for each trading pair. Supports functions like adding a new market (a new trading pair), and placing limit orders.
-- **TradingPair**: Represents a pair of currencies that can be traded. The 'base' is the currency being bought or sold, and the 'quote' is the currency used as a reference for price.
+# 🚀 Technical Architecture
 
-The engine operates by constantly checking for matchable orders (i.e., a sell order and a buy order at the same price). When a match is found, the orders are "filled" and removed from the `OrderBook`. The engine uses Limit Orders to ensure trades are only executed at the limit price or better.
+The engine is designed for **high throughput and low latency**, using a **decoupled architecture** capable of supporting **multiple concurrent markets**.
 
-## Usage
+### 📊 Order Book Management
 
-To run the trading engine, clone the repository and use Rust's `cargo run` command:
+Implements an efficient **OrderBook** structure using **hash-mapped price levels** to achieve:
+
+* **O(1) lookup** for price levels
+* Fast insertion and cancellation of orders
+* Efficient volume tracking
+
+---
+
+### ⚡ Matching Logic
+
+A specialized **MatchingEngine** coordinates multiple **TradingPairs**, ensuring:
+
+* Atomic order matching
+* Correct bid/ask priority
+* Consistent order state transitions
+
+---
+
+### 🧠 Systems-Level Optimization
+
+The engine leverages **Rust’s ownership model** to manage order lifecycles without requiring a garbage collector.
+
+Benefits include:
+
+* Deterministic memory management
+* Reduced latency spikes
+* Improved throughput under heavy load
+
+---
+
+# 🛠 Key Components
+
+The codebase separates **market state** from **execution logic**.
+
+```text
+trading_engine_rust/
+│
+├── matching_engine/
+│   ├── orderbook.rs     # Core structures: Order, Limit, OrderBook
+│   └── engine.rs        # MatchingEngine managing multiple trading pairs
+│
+├── main.rs              # CLI entry point for simulation
+│
+└── README.md
+```
+
+### `/matching_engine/orderbook.rs`
+
+Contains core data structures:
+
+* `Order`
+* `Limit`
+* `OrderBook`
+
+Handles:
+
+* Price level storage
+* Volume calculations
+* Order matching and filling logic
+
+---
+
+### `/matching_engine/engine.rs`
+
+Defines the **MatchingEngine** responsible for:
+
+* Managing active trading pairs
+* Coordinating order matching
+* Maintaining market state
+
+---
+
+### `/main.rs`
+
+Application entry point providing a **CLI interface** that allows:
+
+* Real-time market simulation
+* Manual order placement
+* Testing matching behavior
+
+---
+
+# 💻 Tech Stack & Core Concepts
+
+### Programming Language
+
+* **Rust (100%)**
+
+### Data Structures
+
+* `HashMap`-backed price levels for fast order discovery
+
+### Financial Trading Concepts
+
+* Limit Orders
+* Price-Time Priority Matching
+* Volume Analysis
+* Bid / Ask Spread Simulation
+
+---
+
+# ⚙️ Getting Started
+
+## Prerequisites
+
+Ensure the **Rust toolchain** is installed.
+
+Install Rust if needed:
 
 ```bash
-$ git clone https://github.com/omerhalid/rust-trading-engine.git
-$ cd rust-trading-engine
-$ cargo run
-"# rust-trading-engine" 
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+```
+
+Verify installation:
+
+```bash
+rustc --version
+cargo --version
+```
+
+---
+
+# 📥 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Muasevim/trading_engine_rust.git
+cd trading_engine_rust
+```
+
+---
+
+# ▶️ Build and Run
+
+Compile and execute the engine:
+
+```bash
+cargo run --release
+```
+
+The `--release` flag enables **Rust compiler optimizations**, significantly improving runtime performance and making it suitable for **benchmarking latency and throughput**.
+
+---
+
+# 🧪 Example Use Case
+
+The CLI simulation allows you to:
+
+1. Start the engine
+2. Submit **buy/sell limit orders**
+3. Observe how the **matching engine executes trades**
+
+Example workflow:
+
+```
+Start engine
+   ↓
+Place BUY order
+   ↓
+Place SELL order
+   ↓
+Engine matches orders
+   ↓
+Trade executed
+```
+
+---
+
+# 🗺 Roadmap & Performance Goals
+
+### 🔒 Lock-Free Concurrency
+
+Implement **thread-safe multi-market matching** using:
+
+* `Arc`
+* `Mutex`
+* Rust concurrent primitives
+
+Goal: support **parallel order matching across markets**.
+
+---
+
+### 📡 FIX Protocol Support
+
+Add compatibility with the **Financial Information eXchange (FIX) protocol**, enabling integration with:
+
+* Trading platforms
+* Broker systems
+* Market gateways
+
+---
+
+### 🌐 WebAssembly (WASM) Bridge
+
+Compile the engine to **WebAssembly** to enable:
+
+* High-speed trading simulations in the browser
+* Integration with the **Bridge SaaS frontend**
+* Client-side order book visualization
+
+---
+
+# 📄 License
+
+This project is **open-source** and available under the **MIT License**.
