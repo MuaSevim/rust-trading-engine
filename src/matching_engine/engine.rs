@@ -7,14 +7,14 @@ use rust_decimal::prelude::*;
 //USD => Quote
 
 #[derive(Debug, Eq, PartialEq, Hash, Clone)]
-pub struct TraidingPair{
+pub struct TradingPair {
     base: String,
     quote: String,
 }
 
-impl TraidingPair{
-    pub fn new(base: String, quote: String) -> TraidingPair{
-        TraidingPair{
+impl TradingPair {
+    pub fn new(base: String, quote: String) -> TradingPair {
+        TradingPair {
             base,
             quote,
         }
@@ -25,23 +25,23 @@ impl TraidingPair{
     }
 }
 
-pub struct MathchingEngine {
-    orderbooks: HashMap<TraidingPair, OrderBook>,
+pub struct MatchingEngine {
+    orderbooks: HashMap<TradingPair, OrderBook>,
 }
 
-impl MathchingEngine{
-    pub fn new() -> MathchingEngine{
+impl MatchingEngine {
+    pub fn new() -> MatchingEngine {
         MathchingEngine{
             orderbooks: HashMap::new(),
         }
        }
     
-    pub fn add_new_market(&mut self, pair: TraidingPair){
+    pub fn add_new_market(&mut self, pair: TradingPair) {
         self.orderbooks.insert(pair.clone(), OrderBook::new());
         println!("opening new orderbook for market {:?}", pair.to_string());
     }
 
-    pub fn place_limit_order(&mut self, pair: TraidingPair, price: Decimal, order: Order)-> Result<(), String>{
+    pub fn place_limit_order(&mut self, pair: TradingPair, price: Decimal, order: Order) -> Result<(), String> {
 
         match self.orderbooks.get_mut(&pair){
             Some(orderbook) => {
