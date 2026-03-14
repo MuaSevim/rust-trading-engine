@@ -139,7 +139,6 @@ impl Order {
 }
 
 #[cfg(test)]
-
 pub mod tests {
     use super::*;
     use rust_decimal_macros::dec;

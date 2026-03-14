@@ -2,9 +2,9 @@ use std::collections::HashMap;
 use super::orderbook::{OrderBook, Order};
 use rust_decimal::prelude::*;
 
-//BTCUSD
-//BTC => Base
-//USD => Quote
+// BTCUSD
+// BTC => Base
+// USD => Quote
 
 #[derive(Debug, Eq, PartialEq, Hash, Clone)]
 pub struct TradingPair {
@@ -31,10 +31,10 @@ pub struct MatchingEngine {
 
 impl MatchingEngine {
     pub fn new() -> MatchingEngine {
-        MathchingEngine{
+        MatchingEngine {
             orderbooks: HashMap::new(),
         }
-       }
+    }
     
     pub fn add_new_market(&mut self, pair: TradingPair) {
         self.orderbooks.insert(pair.clone(), OrderBook::new());
@@ -47,7 +47,7 @@ impl MatchingEngine {
             Some(orderbook) => {
                 orderbook.add_limit_order(price, order);
 
-                println!("Placed limit order at price leve {}", price);
+                println!("Placed limit order at price level {}", price);
                 Ok(())
             }
             None => {
